@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Form</title>
+    <link rel="stylesheet" href="form.css">
+</head>
+<body>
+    
+   <div class="container">
+    <div class="item">
+        <span>Username:  <br>
+            <input type="text" placeholder="Enter Your Full Name" required id="name"></span>
+    <br>
+    <br>
+    <span>Email: <br> <input type="text" placeholder="Enter yout Email" required id="email"></span>
+    <br>
+    <br>
+    <button id="submitBtn">submit</button>
+    </div>
+   </div>
+    <script>
+     
+// Add an event listener to the body element
+document.body.addEventListener('click', function(e) {
+    // Check if the clicked element is the submit button
+    if (e.target && e.target.id === 'submitBtn') {
+        // Prevent any default action (in case the button has any default behavior)
+        e.preventDefault();
+
+        // Get the values from the input fields
+        const username = document.getElementById('name').value;
+        const useremail = document.getElementById('email').value;
+
+        // Log the values to the console (or process them as needed)
+        // console.log('Name:', name);
+        // console.log('Email:', email);
+
+        // Create an object with the input data
+        const data={
+            name:username,
+            email:useremail
+        }
+        
+        
+      
+
+      //  Make a POST request to the server with the input data
+        fetch('http://127.0.0.1:5000/submit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+      
+        .then(response => response.text()) // or .json() if the server returns JSON
+        .then(result => {
+            console.log('Success:', result);
+            document.body.innerHTML = result; // Display the server response
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+});
+
+
+    </script>
+</body>
+</html>
